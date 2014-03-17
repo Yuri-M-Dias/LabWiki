@@ -19,31 +19,37 @@
   context.fillText ('Seibah',10,50);                                   // write the text 'Hello'
 </script>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+<style>
+  #draggable { width: 150px; height: 150px; padding: 0.5em; }
+</style>
+<script>
+  $(function() {
+  $( "#draggable" ).draggable();
+  });
+</script>
+@javascript
     <table>
       <tr>
+        <div align="left"><div>div index 1</div>
+        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
+        </div>
+        <div align="left">
+        <a href="#" onclick="this.dragme"><img src="http://localhost/Graphics/testbed.png" class="ui-widget-content"></a>
+        </div>
         <div align="left">
         <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
         </div>
         <div align="left">
-        <a href="#" onclick="this.dragme"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
-        </div>
-        <div align="left">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
-        </div>
-        <div align="left">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
-        </div>
-        <div id="example">
-        <div>div index 0</div>
-        <div>div index 1</div>
-        <div>div index 2</div>
-        <div>div index 3</div>
-        <div>div index 4</div>
+        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="ui-widget-content"></a>
         </div>
          
         <div class="dragme"><b> Menu de movimentacao das testbeds!</b><br />LabWiki v0.0</div>
         
-        <div id="example_index">Click one of the above divs</div>
+        <td><div id="example_index">Click one of the above divs</div></td>
       </tr>
     </table>
     <div align="right">

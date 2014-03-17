@@ -49,3 +49,6 @@ gem 'protected_attributes'
 
 #Devise, i dunno what the hell this is
 gem 'devise', '3.0.0.rc'
+
+#JS cheat-sheet
+gem 'poltergeist'
