@@ -1,2 +1,51 @@
-<p>Home</p>
-<b>Hello?</b>
+<style>
+      #sideBar { vertical-align:top;}
+      #contentArea { vertical-align:top;}
+</style>
+
+<canvas id="VeryFirstExampleCanvas" width=180 height=80>
+  GO AND UPDATE YOUR BROWSER BEFORE YOU READ ON!
+</canvas>
+
+<script>
+  var canvas = document.getElementById ('VeryFirstExampleCanvas');    // access the canvas object
+  var context = canvas.getContext ('2d');                             // access the canvas context
+  context.fillStyle = 'blue';                                          // set the color to 'red'
+  context.fillRect (0,0,170,60);                                      // draw a red box on the whole of the canvas
+  context.fillStyle = 'green';                                       // set the color to 'yellow'
+  context.fillRect (5,5,160,50);                                      // draw a yellow box inside the red one
+  context.fillStyle = 'red';                                          // set the color back to 'red'
+  context.font = '30pt Arial Black';                                        // define the CSS font for writing text
+  context.fillText ('Seibah',10,50);                                   // write the text 'Hello'
+</script>
+
+    <table>
+      <tr>
+        <div align="left">
+        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
+        </div>
+        <div align="left">
+        <a href="#" onclick="this.dragme"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
+        </div>
+        <div align="left">
+        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
+        </div>
+        <div align="left">
+        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
+        </div>
+        <div id="example">
+        <div>div index 0</div>
+        <div>div index 1</div>
+        <div>div index 2</div>
+        <div>div index 3</div>
+        <div>div index 4</div>
+        </div>
+         
+        <div class="dragme"><b> Menu de movimentacao das testbeds!</b><br />LabWiki v0.0</div>
+        
+        <div id="example_index">Click one of the above divs</div>
+      </tr>
+    </table>
+    <div align="right">
+        <br>Proxima iteracao: fazer o JS mover elas de novo!</br>
+    </div>
