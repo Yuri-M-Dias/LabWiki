@@ -19,23 +19,15 @@
   context.fillText ('Seibah',10,50);                                   // write the text 'Hello'
 </script>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.9.1.js"></script>
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css">
-<style>
-  #draggable { width: 150px; height: 150px; padding: 0.5em; }
-</style>
 <script>
   $(function() {
   $( "#draggable" ).draggable();
   });
 </script>
-@javascript
     <table>
       <tr>
-        <div align="left"><div>div index 1</div>
-        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
+        <div align="left">
+        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="resize"></a>
         </div>
         <div align="left">
         <a href="#" onclick="this.dragme"><img src="http://localhost/Graphics/testbed.png" class="ui-widget-content"></a>
@@ -55,3 +47,10 @@
     <div align="right">
         <br>Proxima iteracao: fazer o JS mover elas de novo!</br>
     </div>
+
+<div class="DragContainer" id="DragContainer1"> 
+  <div class="DragBox" id="Item1"  overClass="OverDragBox" dragClass="DragDragBox">Item #1</div> 
+  <div class="DragBox" id="Item2"  overClass="OverDragBox" dragClass="DragDragBox">Item #2</div> 
+  <div class="DragBox" id="Item3"  overClass="OverDragBox" dragClass="DragDragBox">Item #3</div> 
+  <div class="DragBox" id="Item4"  overClass="OverDragBox" dragClass="DragDragBox">Item #4</div> 
+</div> 
