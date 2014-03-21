@@ -1,7 +1,22 @@
 <style>
       #sideBar { vertical-align:top;}
       #contentArea { vertical-align:top;}
+      #draggable { width: 150px; height: 150px; padding: 0.5em; }
 </style>
+
+<style>
+  #draggable { width: 150px; height: 150px; padding: 0.5em; }
+</style>
+<script>
+  $(function() {
+  $( "#draggable" ).draggable();
+  });
+</script>
+<style type="text/css">
+        <!--
+        .dragme{position:relative;}
+        -->
+</style> 
 
 <canvas id="VeryFirstExampleCanvas" width=180 height=80>
   GO AND UPDATE YOUR BROWSER BEFORE YOU READ ON!
@@ -11,26 +26,21 @@
   var canvas = document.getElementById ('VeryFirstExampleCanvas');    // access the canvas object
   var context = canvas.getContext ('2d');                             // access the canvas context
   context.fillStyle = 'blue';                                          // set the color to 'red'
-  context.fillRect (0,0,170,60);                                      // draw a red box on the whole of the canvas
+  context.fillRect (0,0,180,60);                                      // draw a red box on the whole of the canvas
   context.fillStyle = 'green';                                       // set the color to 'yellow'
-  context.fillRect (5,5,160,50);                                      // draw a yellow box inside the red one
+  context.fillRect (5,5,170,50);                                      // draw a yellow box inside the red one
   context.fillStyle = 'red';                                          // set the color back to 'red'
-  context.font = '30pt Arial Black';                                        // define the CSS font for writing text
-  context.fillText ('Seibah',10,50);                                   // write the text 'Hello'
+  context.font = '28pt Arial Black';                                        // define the CSS font for writing text
+  context.fillText ('Labwiki',5,45);                                   // write the text 'Hello'
 </script>
 
-<script>
-  $(function() {
-  $( "#draggable" ).draggable();
-  });
-</script>
     <table>
       <tr>
         <div align="left">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="resize"></a>
+        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
         </div>
-        <div align="left">
-        <a href="#" onclick="this.dragme"><img src="http://localhost/Graphics/testbed.png" class="ui-widget-content"></a>
+        <div align="left" class="dragme">
+        <a href="#" onclick="this.dragme"><img src="http://localhost/Graphics/testbed.png" class="ui-wrapper ui-draggable"></a>
         </div>
         <div align="left">
         <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
@@ -40,17 +50,17 @@
         </div>
          
         <div class="dragme"><b> Menu de movimentacao das testbeds!</b><br />LabWiki v0.0</div>
+        <td><div id="example">
+        <div>div index 0</div>
+        <div>div index 1</div>
+        <div>div index 2</div>
+        <div>div index 3</div>
+        <div>div index 4</div>
+        </div></td>
         
         <td><div id="example_index">Click one of the above divs</div></td>
       </tr>
     </table>
     <div align="right">
-        <br>Proxima iteracao: fazer o JS mover elas de novo!</br>
+        <br>FUNCIONEM, SCRIPTS GORDOS!</br>
     </div>
-
-<div class="DragContainer" id="DragContainer1"> 
-  <div class="DragBox" id="Item1"  overClass="OverDragBox" dragClass="DragDragBox">Item #1</div> 
-  <div class="DragBox" id="Item2"  overClass="OverDragBox" dragClass="DragDragBox">Item #2</div> 
-  <div class="DragBox" id="Item3"  overClass="OverDragBox" dragClass="DragDragBox">Item #3</div> 
-  <div class="DragBox" id="Item4"  overClass="OverDragBox" dragClass="DragDragBox">Item #4</div> 
-</div> 
