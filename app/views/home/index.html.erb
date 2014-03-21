@@ -1,22 +1,21 @@
+<meta charset="utf-8">
 <style>
       #sideBar { vertical-align:top;}
       #contentArea { vertical-align:top;}
-      #draggable { width: 150px; height: 150px; padding: 0.5em; }
 </style>
-
-<style>
-  #draggable { width: 150px; height: 150px; padding: 0.5em; }
+ <style>
+  .draggable { float: left; background: transparent; border: none;}
+  #draggable, #draggable2 { margin-bottom:20px; }
+  #draggable { cursor: n-resize; }
+  #draggable2 { cursor: e-resize; }
+  #containment-wrapper { width: 500px; height:550px; border:2px solid #ccc; padding: 10px; }
+  h3 { clear: left; }
 </style>
 <script>
-  $(function() {
-  $( "#draggable" ).draggable();
+$(function() {
+  $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: false });
   });
 </script>
-<style type="text/css">
-        <!--
-        .dragme{position:relative;}
-        -->
-</style> 
 
 <canvas id="VeryFirstExampleCanvas" width=180 height=80>
   GO AND UPDATE YOUR BROWSER BEFORE YOU READ ON!
@@ -36,20 +35,7 @@
 
     <table>
       <tr>
-        <div align="left">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
-        </div>
-        <div align="left" class="dragme">
-        <a href="#" onclick="this.dragme"><img src="http://localhost/Graphics/testbed.png" class="ui-wrapper ui-draggable"></a>
-        </div>
-        <div align="left">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="dragme"></a>
-        </div>
-        <div align="left">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png" class="ui-widget-content"></a>
-        </div>
-         
-        <div class="dragme"><b> Menu de movimentacao das testbeds!</b><br />LabWiki v0.0</div>
+        <div><b> Menu de movimentacao das testbeds!</b><br />LabWiki v0.0</div>
         <td><div id="example">
         <div>div index 0</div>
         <div>div index 1</div>
@@ -57,10 +43,26 @@
         <div>div index 3</div>
         <div>div index 4</div>
         </div></td>
+
+<div align="right" id="containment-wrapper">
+        <div align="left" id="test1" class="draggable ui-widget-content arrastavel">
+        <a href="#"><img src="http://localhost/Graphics/testbed.png" ></a>
+        </div>
+        <div align="left" id="test2" class="draggable ui-widget-content arrastavel">
+        <a href="#"><img src="http://localhost/Graphics/testbed.png"></a>
+        </div>
+        <div align="left" id="test3" class="draggable ui-widget-content arrastavel">
+        <a href="#"><img src="http://localhost/Graphics/testbed.png" ></a>
+        </div>
+        <div align="left" id="test4" class="draggable ui-widget-content arrastavel">
+        <a href="#"><img src="http://localhost/Graphics/testbed.png"></a>
+        </div>
+</div>
+
         
         <td><div id="example_index">Click one of the above divs</div></td>
       </tr>
     </table>
-    <div align="right">
+    <div align="right" class="dragme">
         <br>FUNCIONEM, SCRIPTS GORDOS!</br>
     </div>

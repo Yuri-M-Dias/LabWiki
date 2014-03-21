@@ -1,11 +1,7 @@
-= require jquery
-= require jquery_ujs
-= require turbolinks
-= require_tree .
+var print = "is this even working?";
+console.log(print);
 
-  $(function() {
-    $( "#draggable" ).draggable();
-  });
+
         <!-- This script and many more are available free online at -->
         <!-- Created by: elouai.com -->
         <!-- Início
