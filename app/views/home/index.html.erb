@@ -4,65 +4,86 @@
       #contentArea { vertical-align:top;}
 </style>
  <style>
-  .draggable { float: left; background: transparent; border: none;}
+  .draggable { float: left; background: transparent; border: none; }
   #draggable, #draggable2 { margin-bottom:20px; }
   #draggable { cursor: n-resize; }
   #draggable2 { cursor: e-resize; }
-  #containment-wrapper { width: 500px; height:550px; border:2px solid #ccc; padding: 10px; }
+  #containment-wrapper { width: 500px; height:550px; border:0.1px solid #ccc; padding: 1px; float: right; }
   h3 { clear: left; }
 </style>
 <script>
 $(function() {
   $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: false });
-  });
+ $(".index div").click(function() {
+    var index = $(this).index();
+    $("#example_index").html("Index " + index + " was clicked");
+ });
+});
 </script>
-
-<canvas id="VeryFirstExampleCanvas" width=180 height=80>
-  GO AND UPDATE YOUR BROWSER BEFORE YOU READ ON!
-</canvas>
 
 <script>
-  var canvas = document.getElementById ('VeryFirstExampleCanvas');    // access the canvas object
-  var context = canvas.getContext ('2d');                             // access the canvas context
-  context.fillStyle = 'blue';                                          // set the color to 'red'
-  context.fillRect (0,0,180,60);                                      // draw a red box on the whole of the canvas
-  context.fillStyle = 'green';                                       // set the color to 'yellow'
-  context.fillRect (5,5,170,50);                                      // draw a yellow box inside the red one
-  context.fillStyle = 'red';                                          // set the color back to 'red'
-  context.font = '28pt Arial Black';                                        // define the CSS font for writing text
-  context.fillText ('Labwiki',5,45);                                   // write the text 'Hello'
+  window.onload = function() {
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var width  = window.innerWidth;
+    var height = window.innerHeight;
+    console.log(canvas);
+    canvas.height = height;
+    canvas.width = width;
+    canvas.addEventListener('mousedown', function(e) {
+      this.down = true;  
+      this.X = e.pageX ;
+      this.Y = e.pageY ;
+      this.color = rgb();
+    }, 0);
+    canvas.addEventListener('mouseup', function() {
+      this.down = false;      
+    }, 0);
+    canvas.addEventListener('mousemove', function(e) {
+      this.style.cursor = 'pointer';
+      if(this.down) {
+          ctx.beginPath();
+          ctx.moveTo(this.X, this.Y);
+          ctx.lineCap = 'round';
+           ctx.lineWidth = 3;
+          ctx.lineTo(e.pageX , e.pageY );
+          ctx.strokeStyle = this.color;
+          ctx.stroke();
+
+         this.X = e.pageX ;
+         this.Y = e.pageY ;
+      }
+    }, 0);
+
+    function rgb() {
+      color = 'rgb(';
+      for(var i = 0; i< 3; i++) {
+        color += Math.floor(Math.random() * 255)+',';
+      }
+      return color.replace(/\,$/,')');
+    }    
+  };
 </script>
 
-    <table>
-      <tr>
-        <div><b> Menu de movimentacao das testbeds!</b><br />LabWiki v0.0</div>
-        <td><div id="example">
-        <div>div index 0</div>
-        <div>div index 1</div>
-        <div>div index 2</div>
-        <div>div index 3</div>
-        <div>div index 4</div>
-        </div></td>
+<div><b> Menu de movimentacao das testbeds!</b><br />LabWiki v0.0</div>
 
-<div align="right" id="containment-wrapper">
-        <div align="left" id="test1" class="draggable ui-widget-content arrastavel">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png" ></a>
-        </div>
-        <div align="left" id="test2" class="draggable ui-widget-content arrastavel">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png"></a>
-        </div>
-        <div align="left" id="test3" class="draggable ui-widget-content arrastavel">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png" ></a>
-        </div>
-        <div align="left" id="test4" class="draggable ui-widget-content arrastavel">
-        <a href="#"><img src="http://localhost/Graphics/testbed.png"></a>
-        </div>
+<div align="center" id="containment-wrapper" class="index">
+  <div align="left" id="test1" class="draggable ui-widget-content arrastavel">
+  <a href="#"><img src="/testbed.png" ></a>
+  </div>
+  <div align="left" id="test2" class="draggable ui-widget-content arrastavel">
+  <a href="#"><img src="/testbed.png"></a>
+  </div>
+  <div align="left" id="test3" class="draggable ui-widget-content arrastavel">
+  <a href="#"><img src="/testbed.png" ></a>
+  </div>
+  <div align="left" id="test4" class="draggable ui-widget-content arrastavel">
+  <a href="#"><img src="/testbed.png"></a>
+  </div>
 </div>
 
         
-        <td><div id="example_index">Click one of the above divs</div></td>
-      </tr>
-    </table>
-    <div align="right" class="dragme">
-        <br>FUNCIONEM, SCRIPTS GORDOS!</br>
-    </div>
+<td><div id="example_index">Click one of the above divs</div></td>
+<div align="right" class="draggable">
+  <br>FUNCIONEM, SCRIPTS GORDOS!</br>
+</div>
