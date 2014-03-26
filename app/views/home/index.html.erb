@@ -4,6 +4,8 @@
       #contentArea { vertical-align:top;}
 </style>
  <style>
+  canvas { z-index: 0 }
+  els_jquery {z-index: 1; background: trasparent; }
   .draggable { float: left; background: transparent; border: none; }
   #draggable, #draggable2 { margin-bottom:20px; }
   #draggable { cursor: n-resize; }
@@ -13,8 +15,8 @@
 </style>
 <script>
 $(function() {
-  $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: false });
- $(".index div").click(function() {
+ $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: false });
+ $(".arrastavel").on("dragstop click", function() {
     var index = $(this).index();
     $("#example_index").html("Index " + index + " was clicked");
  });
@@ -23,10 +25,10 @@ $(function() {
 
 <script>
   window.onload = function() {
-    var canvas = document.getElementById('canvas');
+    var canvas = document.getElementById('test');
     var ctx = canvas.getContext('2d');
-    var width  = window.innerWidth;
-    var height = window.innerHeight;
+    var width  = 300;
+    var height = 300;
     console.log(canvas);
     canvas.height = height;
     canvas.width = width;
@@ -80,10 +82,11 @@ $(function() {
   <div align="left" id="test4" class="draggable ui-widget-content arrastavel">
   <a href="#"><img src="/testbed.png"></a>
   </div>
+  <canvas id="test">Hello?</canvas>
 </div>
 
         
 <td><div id="example_index">Click one of the above divs</div></td>
-<div align="right" class="draggable">
+<div align="left">
   <br>FUNCIONEM, SCRIPTS GORDOS!</br>
 </div>
