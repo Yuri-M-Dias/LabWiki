@@ -4,13 +4,12 @@
       #contentArea { vertical-align:top;}
 </style>
  <style>
-  canvas { z-index: 0 }
-  els_jquery {z-index: 1; background: trasparent; }
+  canvas { z-index: 0; float: right;}
   .draggable { float: left; background: transparent; border: none; }
   #draggable, #draggable2 { margin-bottom:20px; }
   #draggable { cursor: n-resize; }
   #draggable2 { cursor: e-resize; }
-  #containment-wrapper { width: 500px; height:550px; border:0.1px solid #ccc; padding: 1px; float: right; }
+  #containment-wrapper { width: 500px; height:550px; border:0.1px solid #ccc; padding: 1px; float: right; z-index: 1; background: transparent; }
   h3 { clear: left; }
 </style>
 <script>
@@ -19,17 +18,19 @@ $(function() {
  $(".arrastavel").on("dragstop click", function() {
     var index = $(this).index();
     $("#example_index").html("Index " + index + " was clicked");
+
+
  });
 });
 </script>
 
 <script>
   window.onload = function() {
-    var canvas = document.getElementById('test');
+    var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
-    var width  = 300;
-    var height = 300;
-    console.log(canvas);
+    var width  = 900;
+    var height = 500;
+    alert(window.innerWidth);
     canvas.height = height;
     canvas.width = width;
     canvas.addEventListener('mousedown', function(e) {
@@ -82,10 +83,19 @@ $(function() {
   <div align="left" id="test4" class="draggable ui-widget-content arrastavel">
   <a href="#"><img src="/testbed.png"></a>
   </div>
-  <canvas id="test">Hello?</canvas>
+  <div align="left" id="test5" class="draggable ui-widget-content arrastavel">
+  <a href="#"><img src="/testbed.png"></a>
+  </div>
+  <div align="left" id="test6" class="draggable ui-widget-content arrastavel">
+  <a href="#"><img src="/testbed.png"></a>
+  </div>
+  <div align="left" id="test7" class="draggable ui-widget-content arrastavel">
+  <a href="#"><img src="/testbed.png"></a>
+  </div>
+  <canvas id="canvas">Hello?</canvas>
 </div>
 
-        
+   
 <td><div id="example_index">Click one of the above divs</div></td>
 <div align="left">
   <br>FUNCIONEM, SCRIPTS GORDOS!</br>
