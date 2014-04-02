@@ -25,3 +25,51 @@
     margin-bottom: 10px;
     background-color: #A3B15A;
 }
+
+canvas { 
+	z-index: 0; 
+	float: right; 
+}
+
+#draggable, #draggable2 { 
+	margin-bottom:20px; 
+}
+
+#draggable { 
+	cursor: n-resize; 
+}
+
+#draggable2 { 
+	cursor: e-resize; 
+}
+
+#containment-wrapper { 
+	width: 500px; 
+	height:500px; 
+	border:0.1px solid #ccc; 
+	padding: 1px; 
+	float: right; 
+	z-index: 1; 
+	background: transparent; 
+	position: relative; 
+}
+h3 { 
+	clear: left; 
+}
+#container { 
+	z-index: 0; 
+	position: relative;
+}
+
+#imageView { 
+	z-index: 0; 
+	border: 1px solid #000; 
+}
+
+#imageTemp { 
+	z-index: 0; 
+	position: absolute; 
+	top: 1px; 
+	left: 1px; 
+	background: transparent;
+} 
