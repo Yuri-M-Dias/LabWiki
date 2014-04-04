@@ -1,24 +1,40 @@
 <meta charset="utf-8">
 <style>
-.draggable { z-index: 2; float: right; background: transparent; border: none; position: absolute; }
+.draggable { z-index: 1; float: left; background: transparent; border: none; position: relative; cursor: progress; }
+  #sideBar { vertical-align:top;}
+  #contentArea { vertical-align:top;}
 </style>
-<% list = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7'] %>
+
+<% list = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9'] %>
 
 <div><b> Menu de movimentacao das testbeds!</b><br />LabWiki v0.1</div>
-
-<div align="center" id="containment-wrapper" class="index">
+<table>
+ <tr>
+  <td id="sideBar">
   <% if !list.blank? %>
-    <% for item in list %>
-      <div align="left" id=<%= item %> class="draggable ui-widget-content arrastavel">
-      <a href="#"><img src="/testbed.png" ></a></div>
-    <% end %>
-  <% else %>
-    <b>Erro de puxar as testbeds!</b>
+      <% for item in list %>
+      <ul>
+        <div align="left" id=<%= item %> class="draggable ui-widget-content arrastavel">
+        <a href="#"><img src="/testbed.png" ></a></div>
+      </ul>
+      <% end %>
+    <% else %>
+      <b>Erro de puxar as testbeds!</b>
   <% end %>
-  <div id="container"><canvas id="imageView" height="500" width="500"></canvas>
-  <canvas id="imageTemp" width="500" height="250"></canvas></div>
-</div>
+  </td>
+
+  <td id="contentArea">
+    <div align="center" id="containment-wrapper" class="index">
+      <div id="container"><canvas id="imageView" height="500" width="500"></canvas>
+      <canvas id="imageTemp" width="500" height="250"></canvas></div>
+    </div>
+  </td>
+ </tr>
+</table>
+
+<aside id="right-sidebar">
 <td><div id="example_index">Clique em uma das testbeds!</div></td>
 <div align="left">
   <br>Agora os scripts gordos estão funcionando!</br>
 </div>
+</aside>

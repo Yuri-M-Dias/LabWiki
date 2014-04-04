@@ -8,10 +8,9 @@ window.addEventListener('load', function () {
  $(function() {
  $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: true });
  $(".arrastavel").on("dragstop click", function() {
-    var index = $(this).index();
+    var index = this.id;
     $("#example_index").html("Testbed " + index + " foi clicada ou arrastada!");
-    var dragstoped = true;
-    alert(this.layerY);
+    alert(this.offsetX);
   });
  });
   var canvas, context, canvaso, contexto;
@@ -24,7 +23,7 @@ window.addEventListener('load', function () {
     // Find the canvas element.
     canvaso = document.getElementById('imageView');
     if (!canvaso) {
-      alert('Error: I cannot find the canvas element!');
+      //alert('Error: I cannot find the canvas element!');
       return;
     }
 
@@ -60,7 +59,7 @@ window.addEventListener('load', function () {
       tool = new tools[tool_default]();
     }
     // Attach the mousedown, mousemove and mouseup event listeners.
-    canvas.addEventListener('dragstop', ev_canvas, false);
+    canvas.addEventListener('mousedown', ev_canvas, false);
     canvas.addEventListener('mousemove', ev_canvas, false);
     canvas.addEventListener('mouseup',   ev_canvas, false);
   }
@@ -97,8 +96,7 @@ window.addEventListener('load', function () {
     var tool = this;
     this.started = false;
 
-    this.dragstop = function (ev) {
-      alert($(this).index);
+    this.mousedown = function (ev) {
       tool.started = true;
       tool.x0 = ev._x;
       tool.y0 = ev._y;

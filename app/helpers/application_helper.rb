@@ -9,7 +9,7 @@ module ApplicationHelper
             <div_id="error_message">
               #{model.errors[field][0]}
             </div>
-      EOHTML
+          EOHTML
     end
 
     s.html_safe

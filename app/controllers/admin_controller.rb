@@ -1,5 +1,8 @@
 class AdminController < ApplicationController
   def users
+    if !current_user
+      redirect_to :root
+    end 
     @users = User.all
   end
 
