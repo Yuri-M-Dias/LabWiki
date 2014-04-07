@@ -10,9 +10,19 @@ window.addEventListener('load', function () {
  $(".arrastavel").on("dragstop click", function() {
     var index = this.id;
     $("#example_index").html("Testbed " + index + " foi clicada ou arrastada!");
-    alert(this.offsetX);
+    var position = getPosition(this);
+    alert("The image is located at: " + position.x + ", " + position.y);
   });
  });
+
+function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+    xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+    yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+    return { x: xPosition, y: yPosition };
+}
+
   var canvas, context, canvaso, contexto;
 
   // The active tool instance.
@@ -121,6 +131,8 @@ window.addEventListener('load', function () {
         tool.mousemove(ev);
         tool.started = false;
         img_update();
+        var position = getPosition(tool);
+        alert("The image is located at: " + position.x + ", " + position.y);
       }
     };
   };

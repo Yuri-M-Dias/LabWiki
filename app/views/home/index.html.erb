@@ -3,6 +3,7 @@
 .draggable { z-index: 1; float: left; background: transparent; border: none; position: relative; cursor: progress; }
   #sideBar { vertical-align:top;}
   #contentArea { vertical-align:top;}
+  #rightSideBar { vertical-align:top;}
 </style>
 
 <% list = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9'] %>
@@ -29,12 +30,13 @@
       <canvas id="imageTemp" width="500" height="250"></canvas></div>
     </div>
   </td>
- </tr>
-</table>
 
-<aside id="right-sidebar">
-<td><div id="example_index">Clique em uma das testbeds!</div></td>
-<div align="left">
-  <br>Agora os scripts gordos estão funcionando!</br>
-</div>
-</aside>
+  <td id="rightSideBar">
+    <div id="example_index">Clique em uma das testbeds!</div>
+    <div align="left">
+      <br>Agora os scripts gordos estão funcionando!</br>
+    </div>
+  </td>
+
+</tr>
+</table>
