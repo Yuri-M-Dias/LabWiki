@@ -5,13 +5,18 @@
 // Keep everything in anonymous function, called on window load.
 if(window.addEventListener) {
 window.addEventListener('load', function () {
+
+  var testbed = {};
+
  $(function() {
  $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: true });
  $(".arrastavel").on("dragstop click", function() {
-    var index = this.id;
-    $("#example_index").html("Testbed " + index + " foi clicada ou arrastada!");
-    var position = getPosition(this);
-    alert("The image is located at: " + position.x + ", " + position.y);
+  var position = getPosition(this);
+    testbed[this.id] = [this.id, position.x, position.y];
+    $("#example_index").html("Testbed " + testbed[this.id][0] + " foi clicada ou arrastada!");
+    $("#testbed_pos").html("The image is located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
+    testbed[this.id][1] = position.x - 106;
+    testbed[this.id][2] = position.y - 94;
   });
  });
 
@@ -64,28 +69,37 @@ function getPosition(element) {
 
     context = canvas.getContext('2d');
 
-    // Activate the default tool.
     if (tools[tool_default]) {
       tool = new tools[tool_default]();
     }
     // Attach the mousedown, mousemove and mouseup event listeners.
     canvas.addEventListener('mousedown', ev_canvas, false);
     canvas.addEventListener('mousemove', ev_canvas, false);
-    canvas.addEventListener('mouseup',   ev_canvas, false);
+    canvas.addEventListener('mouseup', ev_canvas, false);
+    canvas.addEventListener('dragstop', ev_canvas, false);
+  }
+
+  function ev_img (ev){
+    ev._x = testbed['testbed1'][1];
+    ev._y = testbed['testbed1'][2];
+
+    var func = tool[ev.type];
+    if (func) {
+      func(ev);
+    }
   }
 
   // The general-purpose event handler. This function just determines the mouse 
   // position relative to the canvas element.
   function ev_canvas (ev) {
-    if (ev.layerX || ev.layerX == 0) { // Firefox
+    if (ev.layerX || ev.layerX == 0) {
       ev._x = ev.layerX;
       ev._y = ev.layerY;
-    } else if (ev.offsetX || ev.offsetX == 0) { // Opera
+    } else if (ev.offsetX || ev.offsetX == 0) {
       ev._x = ev.offsetX;
       ev._y = ev.offsetY;
     }
 
-    // Call the event handler of the tool.
     var func = tool[ev.type];
     if (func) {
       func(ev);
@@ -98,8 +112,14 @@ function getPosition(element) {
 		contexto.drawImage(canvas, 0, 0);
 		context.clearRect(0, 0, canvas.width, canvas.height);
   }
+  function draw_image(ix, iy){
+    base_image = new Image();
+    base_image.src = '/testbed.png'
+    base_image.onload = function(){
+      context.drawImage(base_image, ix, iy);
+    }
+  }
 
-  // This object holds the implementation of each drawing tool.
   var tools = {};
   // The line tool.
   tools.line = function () {
@@ -110,6 +130,12 @@ function getPosition(element) {
       tool.started = true;
       tool.x0 = ev._x;
       tool.y0 = ev._y;
+    };
+
+    this.dragstop = function (ev){
+      tool.started = true;
+      tool.x0 = testbed['testbed1'][1];
+      tool.y0 = testbed['testbed1'][2];
     };
 
     this.mousemove = function (ev) {
@@ -131,8 +157,6 @@ function getPosition(element) {
         tool.mousemove(ev);
         tool.started = false;
         img_update();
-        var position = getPosition(tool);
-        alert("The image is located at: " + position.x + ", " + position.y);
       }
     };
   };
