@@ -1,7 +1,3 @@
-/* Â© 2009 ROBO Design
- * http://www.robodesign.ro
- */
-
 // Keep everything in anonymous function, called on window load.
 if(window.addEventListener) {
 window.addEventListener('load', function () {
@@ -17,6 +13,8 @@ window.addEventListener('load', function () {
     $("#testbed_pos").html("The image is located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
     testbed[this.id][1] = position.x - 106;
     testbed[this.id][2] = position.y - 94;
+    $("#testbed_pos2").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
+    alert(comparePositions(position.x, position.y));
   });
  });
 
@@ -28,12 +26,21 @@ function getPosition(element) {
     return { x: xPosition, y: yPosition };
 }
 
-  var canvas, context, canvaso, contexto;
+function comparePositions(xPosition, yPosition){
+  var name = "";
+  for (var x in testbed){
+    if((testbed[x][1] === xPosition - 106) && (testbed[x][2] === yPosition - 94)){
+      name = testbed[x][0];
+    }
+    alert(testbed[x][1] === xPosition);
+  }
+  return name;
+}
 
+  var canvas, context, canvaso, contexto;
   // The active tool instance.
   var tool;
   var tool_default = 'line';
-
   function init () {
     // Find the canvas element.
     canvaso = document.getElementById('imageView');
@@ -41,19 +48,16 @@ function getPosition(element) {
       //alert('Error: I cannot find the canvas element!');
       return;
     }
-
     if (!canvaso.getContext) {
       alert('Error: no canvas.getContext!');
       return;
     }
-
     // Get the 2D canvas context.
     contexto = canvaso.getContext('2d');
     if (!contexto) {
       alert('Error: failed to getContext!');
       return;
     }
-
     // Add the temporary canvas.
     var container = canvaso.parentNode;
     canvas = document.createElement('canvas');
@@ -61,14 +65,11 @@ function getPosition(element) {
       alert('Error: I cannot create a new canvas element!');
       return;
     }
-
     canvas.id     = 'imageTemp';
     canvas.width  = canvaso.width;
     canvas.height = canvaso.height;
     container.appendChild(canvas);
-
     context = canvas.getContext('2d');
-
     if (tools[tool_default]) {
       tool = new tools[tool_default]();
     }
@@ -77,16 +78,6 @@ function getPosition(element) {
     canvas.addEventListener('mousemove', ev_canvas, false);
     canvas.addEventListener('mouseup', ev_canvas, false);
     canvas.addEventListener('dragstop', ev_canvas, false);
-  }
-
-  function ev_img (ev){
-    ev._x = testbed['testbed1'][1];
-    ev._y = testbed['testbed1'][2];
-
-    var func = tool[ev.type];
-    if (func) {
-      func(ev);
-    }
   }
 
   // The general-purpose event handler. This function just determines the mouse 
@@ -112,6 +103,7 @@ function getPosition(element) {
 		contexto.drawImage(canvas, 0, 0);
 		context.clearRect(0, 0, canvas.width, canvas.height);
   }
+
   function draw_image(ix, iy){
     base_image = new Image();
     base_image.src = '/testbed.png'
@@ -136,13 +128,14 @@ function getPosition(element) {
       tool.started = true;
       tool.x0 = testbed['testbed1'][1];
       tool.y0 = testbed['testbed1'][2];
+      alert("Hello?");
     };
 
     this.mousemove = function (ev) {
       if (!tool.started) {
         return;
       }
-
+      //Resets the canvas
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       context.beginPath();
