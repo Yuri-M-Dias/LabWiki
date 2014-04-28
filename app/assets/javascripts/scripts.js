@@ -1,8 +1,8 @@
-// Keep everything in anonymous function, called on window load.
 if(window.addEventListener) {
 window.addEventListener('load', function () {
 
   var testbed = {};
+  resetItAll();
 
 function getPosition(element) {
     var xPosition = 0;
@@ -18,7 +18,16 @@ function comparePositions(xPosition, yPosition){
     if((testbed[x][1] === xPosition - 106) && (testbed[x][2] === yPosition - 94)){
       name = testbed[x][0];
     }
-    alert(testbed[x][1] === xPosition);
+  }
+  return name;
+}
+
+function getClicked(){
+  var name1 = null, name2 = null;
+  for (var x in testbed){
+    if(testbed[x][3] === true){
+      name = testbed[x][0];
+    }
   }
   return name;
 }
@@ -110,13 +119,6 @@ function comparePositions(xPosition, yPosition){
       tool.y0 = ev._y;
     };
 
-    this.dragstop = function (ev){
-      tool.started = true;
-      tool.x0 = testbed['testbed1'][1];
-      tool.y0 = testbed['testbed1'][2];
-      alert("Hello?");
-    };
-
     this.mousemove = function (ev) {
       if (!tool.started) {
         return;
@@ -141,38 +143,82 @@ function comparePositions(xPosition, yPosition){
   };
   
 $(function() {
+  var frozen = false;
  $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: true });
  $(".arrastavel").draggable({
   start: function(){
     var position = getPosition(this);
     position.x = position.x - 81;
     position.y = position.y - 69;
-    testbed[this.id] = [this.id, position.x, position.y];
-    context.beginPath();
-    context.moveTo(testbed[this.id][1], testbed[this.id][2]);
+    testbed[this.id] = [this.id, position.x, position.y, false];
   },
   drag: function() {
     var position = getPosition(this);
     position.x = position.x - 81;
     position.y = position.y - 69;
-    testbed[this.id] = [this.id, position.x, position.y];
+    testbed[this.id] = [this.id, position.x, position.y, false];
     $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
-    context.lineTo(testbed[this.id][1], testbed[this.id][2]);
-    context.stroke();
     
-  },
-  stop: function(){
-    img_update();
   }
  });
  $(".arrastavel").on("start dragstop click", function() {
+  if(testbed[this.id][4] === undefined)
+    testbed[this.id][4] = null;
     $("#example_index").html("Testbed " + testbed[this.id][0] + " foi clicada ou arrastada!");
+    $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
+    if(frozen){
+      testbed[this.id][3] = true;
+      var othertest = getClicked();
+      if(othertest !== null){
+        context.beginPath();
+        context.moveTo(testbed[this.id][1], testbed[this.id][2]);
+        context.lineTo(testbed[othertest][1], testbed[othertest][2]);
+        context.stroke();
+        img_update();
+        addConnectedNames(this.id, othertest);
+        addConnectedNames(othertest, this.id);
+      }
+    }
+    $("#testbed_con").html("Connexions with: " + testbed[this.id][4]);
+  });
+ $("#freeze").on("click", function(){
+  if(!frozen){
+    $(".arrastavel").draggable("disable");
+    frozen = true;
+  }else{
+    $(".arrastavel").draggable("enable");
+    frozen = false;
+  }
+ });
+ $("#reset").on("click", function(){
+    contexto.clearRect(0, 0, canvaso.width, canvaso.height);
+    resetItAll();
   });
 });
 
+function addConnectedNames(saindo, entrando){
+  if((saindo === entrando) || (saindo.indexOf(entrando) !== -1) || (entrando.indexOf(saindo) !== -1))
+    return;
+  testbed[saindo][4] += " " + entrando;
+  testbed[entrando][4] += " " + saindo;
+}
+
+function resetItAll(){
+  var name1 = null, name2 = null;
+  for (var x in testbed){
+      testbed[x][4] = null;
+    }
+}
+
+function hasConnection(name, other){
+  var has = false;
+  if(testbed[name][4].indexOf(other) > -1){
+    has = true;
+  }
+  return has;
+}
   init();
 
 }, false); }
 
 // vim:set spell spl=en fo=wan1croql tw=80 ts=2 sw=2 sts=2 sta et ai cin fenc=utf-8 ff=unix:
-
