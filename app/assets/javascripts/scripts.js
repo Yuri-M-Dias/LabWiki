@@ -22,12 +22,12 @@ function comparePositions(xPosition, yPosition){
   return name;
 }
 
-function getClicked(){
-  var name1 = null, name2 = null;
+function getClicked(original){
   for (var x in testbed){
-    if(testbed[x][3] === true){
+    if(testbed[x][3] === true && name !== x){
       name = testbed[x][0];
-    }
+    }else
+      testbed[x][3] = false;
   }
   return name;
 }
@@ -147,39 +147,41 @@ $(function() {
  $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: true });
  $(".arrastavel").draggable({
   start: function(){
-    var position = getPosition(this);
-    position.x = position.x - 81;
-    position.y = position.y - 69;
-    testbed[this.id] = [this.id, position.x, position.y, false];
+    if(testbed[this.id] === undefined)
+      testbed[this.id] = new Array();
   },
   drag: function() {
     var position = getPosition(this);
-    position.x = position.x - 81;
-    position.y = position.y - 69;
-    testbed[this.id] = [this.id, position.x, position.y, false];
+    testbed[this.id][0] = this.id;
+    testbed[this.id][1] = position.x - 81;
+    testbed[this.id][2] = position.y - 69;
     $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
-    
+    fixPosition();
   }
  });
  $(".arrastavel").on("start dragstop click", function() {
+  if(testbed[this.id] === undefined)
+    testbed[this.id] = new Array();
   if(testbed[this.id][4] === undefined)
-    testbed[this.id][4] = null;
-    $("#example_index").html("Testbed " + testbed[this.id][0] + " foi clicada ou arrastada!");
-    $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
-    if(frozen){
-      testbed[this.id][3] = true;
-      var othertest = getClicked();
-      if(othertest !== null){
-        context.beginPath();
-        context.moveTo(testbed[this.id][1], testbed[this.id][2]);
-        context.lineTo(testbed[othertest][1], testbed[othertest][2]);
-        context.stroke();
-        img_update();
-        addConnectedNames(this.id, othertest);
-        addConnectedNames(othertest, this.id);
-      }
+    testbed[this.id][4] = "";
+  $("#example_index").html("Testbed " + testbed[this.id][0] + " foi clicada ou arrastada!");
+  $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
+  if(frozen){
+    testbed[this.id][3] = true;
+    var othertest = getClicked();
+    if(othertest !== "" && !hasConnection(this.id, othertest)){
+      context.beginPath();
+      context.moveTo(testbed[this.id][1], testbed[this.id][2]);
+      context.lineTo(testbed[othertest][1], testbed[othertest][2]);
+      context.stroke();
+      context.closePath();
+      img_update();
+      addConnectedNames(this.id, othertest);
+      addConnectedNames(othertest, this.id);
     }
-    $("#testbed_con").html("Connexions with: " + testbed[this.id][4]);
+  }
+  fixPosition();
+  $("#testbed_con").html("Connexions with: " + testbed[this.id][4]);
   });
  $("#freeze").on("click", function(){
   if(!frozen){
@@ -192,22 +194,37 @@ $(function() {
  });
  $("#reset").on("click", function(){
     contexto.clearRect(0, 0, canvaso.width, canvaso.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
     resetItAll();
   });
 });
 
 function addConnectedNames(saindo, entrando){
-  if((saindo === entrando) || (saindo.indexOf(entrando) !== -1) || (entrando.indexOf(saindo) !== -1))
+  if((saindo === entrando) || (hasConnection(saindo, entrando)) || (hasConnection(entrando, saindo)))
     return;
   testbed[saindo][4] += " " + entrando;
   testbed[entrando][4] += " " + saindo;
 }
 
 function resetItAll(){
-  var name1 = null, name2 = null;
   for (var x in testbed){
-      testbed[x][4] = null;
+      testbed[x][4] = "";
     }
+}
+
+function fixPosition(){
+  contexto.clearRect(0, 0, canvaso.width, canvaso.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  for (var x in testbed){
+    for (var y in testbed){
+      if(hasConnection(x, y)){
+        context.beginPath();
+        context.moveTo(testbed[y][1], testbed[y][2]);
+        context.lineTo(testbed[x][1], testbed[x][2]);
+        context.stroke();
+      }
+    }
+  }
 }
 
 function hasConnection(name, other){
