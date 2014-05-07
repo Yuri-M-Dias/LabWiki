@@ -22,16 +22,6 @@ function comparePositions(xPosition, yPosition){
   return name;
 }
 
-function getClicked(original){
-  for (var x in testbed){
-    if(testbed[x][3] === true && name !== x){
-      name = testbed[x][0];
-    }else
-      testbed[x][3] = false;
-  }
-  return name;
-}
-
   var canvas, context, canvaso, contexto;
   // The active tool instance.
   var tool;
@@ -144,6 +134,7 @@ function getClicked(original){
   
 $(function() {
   var frozen = false;
+  var othertest = "";
  $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: true });
  $(".arrastavel").draggable({
   start: function(){
@@ -162,13 +153,11 @@ $(function() {
  $(".arrastavel").on("start dragstop click", function() {
   if(testbed[this.id] === undefined)
     testbed[this.id] = new Array();
-  if(testbed[this.id][4] === undefined)
-    testbed[this.id][4] = "";
+  if(testbed[this.id][3] === undefined)
+    testbed[this.id][3] = "";
   $("#example_index").html("Testbed " + testbed[this.id][0] + " foi clicada ou arrastada!");
   $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
   if(frozen){
-    testbed[this.id][3] = true;
-    var othertest = getClicked();
     if(othertest !== "" && !hasConnection(this.id, othertest)){
       context.beginPath();
       context.moveTo(testbed[this.id][1], testbed[this.id][2]);
@@ -178,10 +167,12 @@ $(function() {
       img_update();
       addConnectedNames(this.id, othertest);
       addConnectedNames(othertest, this.id);
-    }
+      othertest = "";
+    }else
+      othertest = this.id;
   }
   fixPosition();
-  $("#testbed_con").html("Connexions with: " + testbed[this.id][4]);
+  $("#testbed_con").html("Connexions with: " + testbed[this.id][3]);
   });
  $("#freeze").on("click", function(){
   if(!frozen){
@@ -202,13 +193,13 @@ $(function() {
 function addConnectedNames(saindo, entrando){
   if((saindo === entrando) || (hasConnection(saindo, entrando)) || (hasConnection(entrando, saindo)))
     return;
-  testbed[saindo][4] += " " + entrando;
-  testbed[entrando][4] += " " + saindo;
+  testbed[saindo][3] += " " + entrando;
+  testbed[entrando][3] += " " + saindo;
 }
 
 function resetItAll(){
   for (var x in testbed){
-      testbed[x][4] = "";
+      testbed[x][3] = "";
     }
 }
 
@@ -229,7 +220,7 @@ function fixPosition(){
 
 function hasConnection(name, other){
   var has = false;
-  if(testbed[name][4].indexOf(other) > -1){
+  if(testbed[name][3].indexOf(other) > -1){
     has = true;
   }
   return has;
