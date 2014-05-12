@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
       nil
     end
   end
-
+  
   def initialize(attributes = {})
     super # must allow the active record to initialize!
     attributes.each do |name, value|

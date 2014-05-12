@@ -1,31 +1,9 @@
 if(window.addEventListener) {
 window.addEventListener('load', function () {
-
   var testbed = {};
   resetItAll();
-
-function getPosition(element) {
-    var xPosition = 0;
-    var yPosition = 0;
-    xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-    yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-    return { x: xPosition, y: yPosition };
-}
-
-function comparePositions(xPosition, yPosition){
-  var name = "";
-  for (var x in testbed){
-    if((testbed[x][1] === xPosition - 106) && (testbed[x][2] === yPosition - 94)){
-      name = testbed[x][0];
-    }
-  }
-  return name;
-}
-
   var canvas, context, canvaso, contexto;
   // The active tool instance.
-  var tool;
-  var tool_default = 'line';
   function init () {
     // Find the canvas element.
     canvaso = document.getElementById('imageView');
@@ -55,82 +33,9 @@ function comparePositions(xPosition, yPosition){
     canvas.height = canvaso.height;
     container.appendChild(canvas);
     context = canvas.getContext('2d');
-    if (tools[tool_default]) {
-      tool = new tools[tool_default]();
-    }
-    // Attach the mousedown, mousemove and mouseup event listeners.
-    canvas.addEventListener('mousedown', ev_canvas, false);
-    canvas.addEventListener('mousemove', ev_canvas, false);
-    canvas.addEventListener('mouseup', ev_canvas, false);
-    canvas.addEventListener('dragstop', ev_canvas, false);
-  }
 
-  // The general-purpose event handler. This function just determines the mouse 
-  // position relative to the canvas element.
-  function ev_canvas (ev) {
-    if (ev.layerX || ev.layerX == 0) {
-      ev._x = ev.layerX;
-      ev._y = ev.layerY;
-    } else if (ev.offsetX || ev.offsetX == 0) {
-      ev._x = ev.offsetX;
-      ev._y = ev.offsetY;
-    }
-
-    var func = tool[ev.type];
-    if (func) {
-      func(ev);
-    }
-  }
-  // This function draws the #imageTemp canvas on top of #imageView, after which 
-  // #imageTemp is cleared. This function is called each time when the user 
-  // completes a drawing operation.
-  function img_update () {
-		contexto.drawImage(canvas, 0, 0);
-		context.clearRect(0, 0, canvas.width, canvas.height);
-  }
-
-  function draw_image(ix, iy){
-    base_image = new Image();
-    base_image.src = '/testbed.png'
-    base_image.onload = function(){
-      context.drawImage(base_image, ix, iy);
-    }
-  }
-
-  var tools = {};
-  // The line tool.
-  tools.line = function () {
-    var tool = this;
-    this.started = false;
-
-    this.mousedown = function (ev) {
-      tool.started = true;
-      tool.x0 = ev._x;
-      tool.y0 = ev._y;
-    };
-
-    this.mousemove = function (ev) {
-      if (!tool.started) {
-        return;
-      }
-      //Resets the canvas
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      context.beginPath();
-      context.moveTo(tool.x0, tool.y0);
-      context.lineTo(ev._x, ev._y);
-      context.stroke();
-      context.closePath();
-    };
-
-    this.mouseup = function (ev) {
-      if (tool.started) {
-        tool.mousemove(ev);
-        tool.started = false;
-        img_update();
-      }
-    };
-  };
+  
+ }
   
 $(function() {
   var frozen = false;
@@ -190,6 +95,19 @@ $(function() {
   });
 });
 
+function img_update () {
+  contexto.drawImage(canvas, 0, 0);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function draw_image(ix, iy){
+  base_image = new Image();
+  base_image.src = '/testbed.png'
+  base_image.onload = function(){
+    context.drawImage(base_image, ix, iy);
+  }
+}
+
 function addConnectedNames(saindo, entrando){
   if((saindo === entrando) || (hasConnection(saindo, entrando)) || (hasConnection(entrando, saindo)))
     return;
@@ -201,6 +119,14 @@ function resetItAll(){
   for (var x in testbed){
       testbed[x][3] = "";
     }
+}
+
+function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+    xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+    yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+    return { x: xPosition, y: yPosition };
 }
 
 function fixPosition(){

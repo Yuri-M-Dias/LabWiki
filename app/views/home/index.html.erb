@@ -5,23 +5,17 @@
   #contentArea { vertical-align:top;}
   #rightSideBar { vertical-align:top;}
 </style>
-
-<% list = ['test1', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8', 'test9'] %>
-
+<%= "Hello".reverse %>
 <div><b> Menu de movimentacao das testbeds!</b><br />LabWiki v0.1</div>
 <table>
  <tr>
   <td id="sideBar">
-  <% if !list.blank? %>
-      <% for item in list %>
-      <ul>
-        <div align="left" id=<%= item %> class="draggable ui-widget-content arrastavel">
-        <a href="#"><img src="/testbed.png" ></a></div>
-      </ul>
-      <% end %>
-    <% else %>
-      <b>Erro de puxar as testbeds!</b>
-  <% end %>
+    <% for list in @testbed %>
+    <ul>
+      <div align="left" id=<%= list.name %> class="draggable ui-widget-content arrastavel">
+      <a href="#"><img src="/testbed.png" ></a></div>
+    </ul>
+    <% end %>
   </td>
 
   <td id="contentArea">

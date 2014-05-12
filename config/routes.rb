@@ -11,7 +11,7 @@ Auth::Application.routes.draw do
   post "new_user" => "authentication#register"
   #Admin page and delete user function
   get "admin_users" => "admin#users"
-  delete "user/:id" => "admin#delete_user", :as => "user" #Gets the ID of the user and delete it from the 
+  delete 'user/:id' => "admin#delete_user", as: :user #Gets the ID of the user and delete it from the 
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
