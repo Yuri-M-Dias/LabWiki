@@ -52,3 +52,5 @@ gem 'devise', '3.0.0.rc'
 
 #JS cheat-sheet
 gem 'poltergeist'
+
+gem 'json'

@@ -2,10 +2,9 @@ if(window.addEventListener) {
 window.addEventListener('load', function () {
   var testbed = {};
   resetItAll();
+  alert(testbed_neighborhoods);
   var canvas, context, canvaso, contexto;
-  // The active tool instance.
   function init () {
-    // Find the canvas element.
     canvaso = document.getElementById('imageView');
     if (!canvaso) {
       //alert('Error: I cannot find the canvas element!');
@@ -15,13 +14,11 @@ window.addEventListener('load', function () {
       alert('Error: no canvas.getContext!');
       return;
     }
-    // Get the 2D canvas context.
     contexto = canvaso.getContext('2d');
     if (!contexto) {
       alert('Error: failed to getContext!');
       return;
     }
-    // Add the temporary canvas.
     var container = canvaso.parentNode;
     canvas = document.createElement('canvas');
     if (!canvas) {
@@ -33,8 +30,6 @@ window.addEventListener('load', function () {
     canvas.height = canvaso.height;
     container.appendChild(canvas);
     context = canvas.getContext('2d');
-
-  
  }
   
 $(function() {
@@ -51,6 +46,8 @@ $(function() {
     testbed[this.id][0] = this.id;
     testbed[this.id][1] = position.x - 81;
     testbed[this.id][2] = position.y - 69;
+    if(testbed[this.id][3] === undefined)
+      testbed[this.id][3] = "";
     $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
     fixPosition();
   }
@@ -60,19 +57,24 @@ $(function() {
     testbed[this.id] = new Array();
   if(testbed[this.id][3] === undefined)
     testbed[this.id][3] = "";
-  $("#example_index").html("Testbed " + testbed[this.id][0] + " foi clicada ou arrastada!");
+  $("#example_index").html("Testbed " + testbed[this.id][0] + " com vizinhos: " + testbed_neighborhoods[this.id]);
   $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
   if(frozen){
     if(othertest !== "" && !hasConnection(this.id, othertest)){
-      context.beginPath();
-      context.moveTo(testbed[this.id][1], testbed[this.id][2]);
-      context.lineTo(testbed[othertest][1], testbed[othertest][2]);
-      context.stroke();
-      context.closePath();
-      img_update();
-      addConnectedNames(this.id, othertest);
-      addConnectedNames(othertest, this.id);
-      othertest = "";
+      if(!ifNeighborhoods(this.id, othertest)){
+        alert("The nodes need to be neighborhoods for the configuration to work!");
+        othertest = "";
+      }else{
+        context.beginPath();
+        context.moveTo(testbed[this.id][1], testbed[this.id][2]);
+        context.lineTo(testbed[othertest][1], testbed[othertest][2]);
+        context.stroke();
+        context.closePath();
+        img_update();
+        addConnectedNames(this.id, othertest);
+        addConnectedNames(othertest, this.id);
+        othertest = "";
+      }
     }else
       othertest = this.id;
   }
@@ -93,11 +95,38 @@ $(function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
     resetItAll();
   });
+ $("#script").on("click", function(){
+  alert("hello?");
+  for (var x in testbed){
+    for (var y in testbed){
+      if(hasConnection(x, y)){
+        setText(document.getElementById('nodename1'), "omf.ufg.node"+testbed[x][0]);
+        setText(document.getElementById('nodename2'), "omf.ufg.node"+testbed[y][0]);
+        setText(document.getElementById('ip1'), testbed_ips[x]);
+        setText(document.getElementById('ip2'), testbed_ips[x]);
+        setText(document.getElementById('ip3'), testbed_ips[y]);
+      }
+    }
+  }
+  alert(getText(document.getElementById('texto')));
+ });
 });
 
 function img_update () {
   contexto.drawImage(canvas, 0, 0);
   context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function getText(obj) {
+    return obj.textContent ? obj.textContent : obj.innerText;
+}
+
+function setText(obj, to) {
+    obj.textContent? obj.textContent = to : obj.innerText = to;
+}
+
+function ifNeighborhoods(original, other){
+  return testbed_neighborhoods[original].indexOf(other) > -1;
 }
 
 function draw_image(ix, iy){
@@ -145,14 +174,9 @@ function fixPosition(){
 }
 
 function hasConnection(name, other){
-  var has = false;
-  if(testbed[name][3].indexOf(other) > -1){
-    has = true;
-  }
-  return has;
+  return testbed[name][3].indexOf(other) > -1;
 }
+
   init();
 
 }, false); }
-
-// vim:set spell spl=en fo=wan1croql tw=80 ts=2 sw=2 sts=2 sta et ai cin fenc=utf-8 ff=unix:
