@@ -2,6 +2,8 @@ Auth::Application.routes.draw do
   root :to => "home#index" #The home page
   resource :index
 
+  get "scriptresult" => "home#scriptresult"
+
   get "signed_out" => "authentication#signed_out" #logout
   #Now for login
   get "sign_in" => "authentication#sign_in"

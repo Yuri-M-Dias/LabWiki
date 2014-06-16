@@ -24,7 +24,7 @@ def login
     flash[:notice] = 'Welcome'
     redirect_to :root
   else
-    flash.now[:error] = 'Unknown user. Please check your username and password.'
+    flash[:error] = 'Unknown user. Please check your username and password.'
     render :action => "sign_in"
   end
 

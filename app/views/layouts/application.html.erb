@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Auth</title>
-  <%= stylesheet_link_tag "application" %>
-  <%= javascript_include_tag "scripts" %>
-  <%= csrf_meta_tags %>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"> 
   <script src="//code.jquery.com/jquery-1.9.1.js"></script> 
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> 
-  <link rel="stylesheet" href="/resources/demos/style.css">
+  <%= javascript_include_tag "http://netdna.bootstrapcdn.com/bootstrap/"+bootstrap_version+"/js/bootstrap.min.js" %>
+  <%= stylesheet_link_tag "http://netdna.bootstrapcdn.com/bootstrap/"+bootstrap_version+"/css/bootstrap.min.css" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "scripts" %>
+  <%= csrf_meta_tags %>
 </head>
 <body>
 <p>
@@ -26,8 +27,6 @@
 <% flash.each do |name, msg| %>
 <%= content_tag :div, msg, :id => "flash_#{name}" %>
 <% end %>
-
 <%= yield %>
-
 </body>
 </html>

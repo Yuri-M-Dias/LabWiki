@@ -54,3 +54,5 @@ gem 'devise', '3.0.0.rc'
 gem 'poltergeist'
 
 gem 'json'
+
+gem 'bootstrap-sass', '~> 2.3.2.0'

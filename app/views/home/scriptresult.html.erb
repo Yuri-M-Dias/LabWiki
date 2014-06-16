@@ -1,0 +1,47 @@
+<script type="text/javascript">
+  var mello = "trello";
+</script>
+<div id="texto">
+  # Definição do grupo server
+  defGroup('server', "<div id="nodename1">omf.ufg.node1</div>") do |node|
+      node.net.e1.ip = "<div id="ip1">192.168.10.1</div>"
+
+      # Adiciona uma aplicação pré-definida
+      node.addApplication("oml:app:iperf") do |app|
+          # Configura propriedades pré-definidas na aplicação
+          app.setProperty('server', true)
+          app.setProperty('port', 5000)
+      end
+  end
+
+  # Definição do grupo client
+  defGroup('client', "<div id="nodename2">omf.ufg.node2</div>") do |node|
+      node.net.e1.ip = "<div id="ip2">192.168.10.2</div>"
+      # Adiciona uma aplicação pré-definida
+      node.addApplication("oml:app:iperf") do |app|
+          # Configura propriedades pré-definidas na aplicação
+          app.setProperty('client', '<div id="ip3">192.168.10.1</div>')
+          app.setProperty('port', 5000)
+          app.setProperty('time', 30)
+          app.setProperty('interval', '1')
+          
+          # Define qual ponto de medida será coletado e como será feito a coleta
+          app.measure('transfer', :samples => 1)
+      end
+  end
+
+  #A execução do experimento é condicionada ao evento ALL_UP_AND_INSTALLED, isto é, o experimento só terá inicio quando todos os nós tiverem ligados e com as aplicações definidas acima devidamente instaladas. 
+  onEvent(:ALL_UP_AND_INSTALLED) do |event|
+      wait 5
+    #Inicia a aplicação definida no grupo server
+      group("server").startApplications
+      wait 5
+    #Inicia a aplicação definida no grupo client
+      group("client").startApplications
+      wait 40
+      #Pausa execução das aplicações em todos os grupos
+      allGroups.stopApplications
+      #Faz a chamada para finalizar o experimento
+      Experiment.done
+  end
+  </div>

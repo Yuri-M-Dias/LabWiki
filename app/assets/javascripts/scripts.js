@@ -2,7 +2,6 @@ if(window.addEventListener) {
 window.addEventListener('load', function () {
   var testbed = {};
   resetItAll();
-  alert(testbed_neighborhoods);
   var canvas, context, canvaso, contexto;
   function init () {
     canvaso = document.getElementById('imageView');
@@ -44,8 +43,8 @@ $(function() {
   drag: function() {
     var position = getPosition(this);
     testbed[this.id][0] = this.id;
-    testbed[this.id][1] = position.x - 81;
-    testbed[this.id][2] = position.y - 69;
+    testbed[this.id][1] = position.x - 50;
+    testbed[this.id][2] = position.y - 50;
     if(testbed[this.id][3] === undefined)
       testbed[this.id][3] = "";
     $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
@@ -96,7 +95,6 @@ $(function() {
     resetItAll();
   });
  $("#script").on("click", function(){
-  alert("hello?");
   for (var x in testbed){
     for (var y in testbed){
       if(hasConnection(x, y)){
@@ -108,9 +106,18 @@ $(function() {
       }
     }
   }
-  alert(getText(document.getElementById('texto')));
+ });
+ $("#downs").on("click", function(){
+  createFile();
  });
 });
+
+function createFile(){
+  var object = new ActiveXObject("Scripting.FileSystemObject");
+  var file = object.CreateTextFile("~/Documents/Ruby/auth//Hello.rb", false);
+  file.WriteLine(getText(document.getElementById('texto')));
+  file.Close();
+}
 
 function img_update () {
   contexto.drawImage(canvas, 0, 0);
