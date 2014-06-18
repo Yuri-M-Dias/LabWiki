@@ -3,14 +3,11 @@ window.addEventListener('load', function () {
   var testbed = {};
   resetItAll();
   var canvas, context, canvaso, contexto;
+  var nodeurl = "omf.ufg.node";
   function init () {
     canvaso = document.getElementById('imageView');
     if (!canvaso) {
       //alert('Error: I cannot find the canvas element!');
-      return;
-    }
-    if (!canvaso.getContext) {
-      alert('Error: no canvas.getContext!');
       return;
     }
     contexto = canvaso.getContext('2d');
@@ -33,7 +30,7 @@ window.addEventListener('load', function () {
   
 $(function() {
   var frozen = false;
-  var othertest = "";
+  var lastclicked = "";
  $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: true });
  $(".arrastavel").draggable({
   start: function(){
@@ -56,29 +53,40 @@ $(function() {
     testbed[this.id] = new Array();
   if(testbed[this.id][3] === undefined)
     testbed[this.id][3] = "";
-  $("#example_index").html("Testbed " + testbed[this.id][0] + " com vizinhos: " + testbed_neighborhoods[this.id]);
-  $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
   if(frozen){
-    if(othertest !== "" && !hasConnection(this.id, othertest)){
-      if(!ifNeighborhoods(this.id, othertest)){
+    if(lastclicked !== "" && !hasConnection(this.id, lastclicked) && lastclicked !== this.id){
+      if(!ifNeighborhoods(this.id, lastclicked)){
         alert("The nodes need to be neighborhoods for the configuration to work!");
-        othertest = "";
+        lastclicked = "";
       }else{
-        context.beginPath();
-        context.moveTo(testbed[this.id][1], testbed[this.id][2]);
-        context.lineTo(testbed[othertest][1], testbed[othertest][2]);
-        context.stroke();
-        context.closePath();
+        contexto.beginPath();
+        contexto.moveTo(testbed[this.id][1], testbed[this.id][2]);
+        contexto.lineTo(testbed[lastclicked][1], testbed[lastclicked][2]);
+        contexto.stroke();
+        contexto.closePath();
         img_update();
-        addConnectedNames(this.id, othertest);
-        addConnectedNames(othertest, this.id);
-        othertest = "";
+        addConnectedNames(this.id, lastclicked);
+        addConnectedNames(lastclicked, this.id);
+        lastclicked = "";
       }
     }else
-      othertest = this.id;
+      lastclicked = this.id;
+  }else{
+    if(lastclicked === "" && lastclicked !== this.id){
+      lastclicked = this.id;
+    }
+  }
+  if(lastclicked !== "" && lastclicked !== this.id){
+    $("#testbed_name2").html("Nó: " +nodeurl+testbed[lastclicked][0] + " com vizinhos: " + testbed_neighborhoods[lastclicked]);
+    $("#testbed_ip2").html("Ip: " + testbed_ips[lastclicked]);
+    $("#testbed_con2").html("Conectado atualmente com: " + testbed[lastclicked][3]);
+    lastclicked = "";
+  }else{
+    $("#testbed_name").html("Nó: " +nodeurl+testbed[this.id][0] + " com vizinhos: " + testbed_neighborhoods[this.id]);
+    $("#testbed_ip").html("Ip: " + testbed_ips[this.id]);
+    $("#testbed_con").html("Conectado atualmente com: " + testbed[this.id][3]);
   }
   fixPosition();
-  $("#testbed_con").html("Connexions with: " + testbed[this.id][3]);
   });
  $("#freeze").on("click", function(){
   if(!frozen){
@@ -91,7 +99,6 @@ $(function() {
  });
  $("#reset").on("click", function(){
     contexto.clearRect(0, 0, canvaso.width, canvaso.height);
-    context.clearRect(0, 0, canvas.width, canvas.height);
     resetItAll();
   });
  $("#script").on("click", function(){
@@ -108,20 +115,15 @@ $(function() {
   }
  });
  $("#downs").on("click", function(){
-  createFile();
+  var blob = new Blob([getText(document.getElementById('texto'))], {
+    type: "text/plain;charset=utf-8;",
+  });
+  saveAs(blob, "scriptTestbedNode.rb");
  });
 });
 
-function createFile(){
-  var object = new ActiveXObject("Scripting.FileSystemObject");
-  var file = object.CreateTextFile("~/Documents/Ruby/auth//Hello.rb", false);
-  file.WriteLine(getText(document.getElementById('texto')));
-  file.Close();
-}
-
 function img_update () {
   contexto.drawImage(canvas, 0, 0);
-  context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function getText(obj) {
@@ -140,7 +142,7 @@ function draw_image(ix, iy){
   base_image = new Image();
   base_image.src = '/testbed.png'
   base_image.onload = function(){
-    context.drawImage(base_image, ix, iy);
+    contexto.drawImage(base_image, ix, iy);
   }
 }
 
@@ -167,14 +169,13 @@ function getPosition(element) {
 
 function fixPosition(){
   contexto.clearRect(0, 0, canvaso.width, canvaso.height);
-  context.clearRect(0, 0, canvas.width, canvas.height);
   for (var x in testbed){
     for (var y in testbed){
       if(hasConnection(x, y)){
-        context.beginPath();
-        context.moveTo(testbed[y][1], testbed[y][2]);
-        context.lineTo(testbed[x][1], testbed[x][2]);
-        context.stroke();
+        contexto.beginPath();
+        contexto.moveTo(testbed[y][1], testbed[y][2]);
+        contexto.lineTo(testbed[x][1], testbed[x][2]);
+        contexto.stroke();
       }
     }
   }

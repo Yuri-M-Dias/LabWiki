@@ -18,54 +18,54 @@
   testbed_ips[<%= list.id.to_json %>] = "<%= list.control_ip %>";
   <% end %>
 </script>
-    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="myModal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel">Script gerado</h4>
       </div>
       <span id="texto" class="modal-body text-left">
-        # Definição do grupo server
-        defGroup('server', "<div id="nodename1">omf.ufg.node1</div>") do |node|
-            node.net.e1.ip = "<div id="ip1">192.168.10.1</div>"
+# Definição do grupo server
+defGroup('server', "<div id="nodename1">omf.ufg.node1</div>") do |node|
+    node.net.e1.ip = "<div id="ip1">192.168.10.1</div>"
 
-            # Adiciona uma aplicação pré-definida
-            node.addApplication("oml:app:iperf") do |app|
-                # Configura propriedades pré-definidas na aplicação
-                app.setProperty('server', true)
-                app.setProperty('port', 5000)
-            end
-        end
+    # Adiciona uma aplicação pré-definida
+    node.addApplication("oml:app:iperf") do |app|
+        # Configura propriedades pré-definidas na aplicação
+        app.setProperty('server', true)
+        app.setProperty('port', 5000)
+    end
+end
 
-        # Definição do grupo client
-        defGroup('client', "<div id="nodename2">omf.ufg.node2</div>") do |node|
-            node.net.e1.ip = "<div id="ip2">192.168.10.2</div>"
-            # Adiciona uma aplicação pré-definida
-            node.addApplication("oml:app:iperf") do |app|
-                # Configura propriedades pré-definidas na aplicação
-                app.setProperty('client', '<div id="ip3">192.168.10.1</div>')
-                app.setProperty('port', 5000)
-                app.setProperty('time', 30)
-                app.setProperty('interval', '1')
-                
-                # Define qual ponto de medida será coletado e como será feito a coleta
-                app.measure('transfer', :samples => 1)
-            end
-        end
+# Definição do grupo client
+defGroup('client', "<div id="nodename2">omf.ufg.node2</div>") do |node|
+    node.net.e1.ip = "<div id="ip2">192.168.10.2</div>"
+    # Adiciona uma aplicação pré-definida
+    node.addApplication("oml:app:iperf") do |app|
+        # Configura propriedades pré-definidas na aplicação
+        app.setProperty('client', '<div id="ip3">192.168.10.1</div>')
+        app.setProperty('port', 5000)
+        app.setProperty('time', 30)
+        app.setProperty('interval', '1')
+        
+        # Define qual ponto de medida será coletado e como será feito a coleta
+        app.measure('transfer', :samples => 1)
+    end
+end
 
-        #A execução do experimento é condicionada ao evento ALL_UP_AND_INSTALLED, isto é, o experimento só terá inicio quando todos os nós tiverem ligados e com as aplicações definidas acima devidamente instaladas. 
-        onEvent(:ALL_UP_AND_INSTALLED) do |event|
-            wait 5
-          #Inicia a aplicação definida no grupo server
-            group("server").startApplications
-            wait 5
-          #Inicia a aplicação definida no grupo client
-            group("client").startApplications
-            wait 40
-            #Pausa execução das aplicações em todos os grupos
-            allGroups.stopApplications
-            #Faz a chamada para finalizar o experimento
-            Experiment.done
-        end
+#A execução do experimento é condicionada ao evento ALL_UP_AND_INSTALLED, isto é, o experimento só terá inicio quando todos os nós tiverem ligados e com as aplicações definidas acima devidamente instaladas. 
+onEvent(:ALL_UP_AND_INSTALLED) do |event|
+    wait 5
+  #Inicia a aplicação definida no grupo server
+    group("server").startApplications
+    wait 5
+  #Inicia a aplicação definida no grupo client
+    group("client").startApplications
+    wait 40
+    #Pausa execução das aplicações em todos os grupos
+    allGroups.stopApplications
+    #Faz a chamada para finalizar o experimento
+    Experiment.done
+end
       </span>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -92,13 +92,13 @@
   </td>
 
   <td id="rightSideBar">
-    <div id="example_index">Clique em uma das testbeds!</div>
-    <div id="testbed_pos">Posição real das testbeds!(em relação ao canvas)</div>
+    <div id="testbed_name">Clique em um dos nós!</div>
+    <div id="testbed_ip">IP do nó...</div>
     <div id="testbed_con">Testbed conectada com...</div>
 
-    <div id="example_index">Clique em uma das testbeds!</div>
-    <div id="testbed_pos">Posição real das testbeds!(em relação ao canvas)</div>
-    <div id="testbed_con">Testbed conectada com...</div>
+    <br><div id="testbed_name2">Clique em um dos nós!</div>
+    <div id="testbed_ip2">IP do nó...</div>
+    <div id="testbed_con2">Testbed conectada com...</div></br>
     <input type="button" class="btn btn-default" value="Congelar" id="freeze">
     <input type="button" class="btn btn-warning" value="Resetar" id="reset">
     <input type="button" class="btn btn-success" href="#myModal" data-toggle="modal" value="Gerar Script" id="script"> 

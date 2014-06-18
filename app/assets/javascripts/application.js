@@ -11,7 +11,7 @@
 // about supported directives.
 //
 
-
+//= require FileSaver
 //= require bootstrap
 //= require bootstrap/modal
 //= require jquery
