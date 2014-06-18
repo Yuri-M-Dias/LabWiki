@@ -5,7 +5,7 @@ window.addEventListener('load', function () {
   var canvas, context, canvaso, contexto;
   var nodeurl = "omf.ufg.node";
   function init () {
-    canvaso = document.getElementById('imageView');
+    canvaso = document.getElementById('imageTemp');
     if (!canvaso) {
       //alert('Error: I cannot find the canvas element!');
       return;
@@ -81,11 +81,10 @@ $(function() {
     $("#testbed_ip2").html("Ip: " + testbed_ips[lastclicked]);
     $("#testbed_con2").html("Conectado atualmente com: " + testbed[lastclicked][3]);
     lastclicked = "";
-  }else{
+  }
     $("#testbed_name").html("Nó: " +nodeurl+testbed[this.id][0] + " com vizinhos: " + testbed_neighborhoods[this.id]);
     $("#testbed_ip").html("Ip: " + testbed_ips[this.id]);
     $("#testbed_con").html("Conectado atualmente com: " + testbed[this.id][3]);
-  }
   fixPosition();
   });
  $("#freeze").on("click", function(){
