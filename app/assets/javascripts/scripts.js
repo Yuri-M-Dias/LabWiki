@@ -155,7 +155,7 @@ function addConnectedNames(saindo, entrando){
 function resetItAll(){
   for (var x in testbed){
       testbed[x][3] = "";
-    }
+  }
 }
 
 function getPosition(element) {
