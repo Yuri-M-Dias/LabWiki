@@ -1,0 +1,84 @@
+
+#flash_error {
+    border: 1px, solid #000066;
+    padding: 4px;
+    margin-bottom: 10px;
+    background-color: #cc3333;
+}
+
+#flash_notice {
+    border: 1px, solid #000066;
+    padding: 4px;
+    margin-bottom: 10px;
+    background-color: #A3B15A;
+}
+
+canvas { 
+	z-index: 0; 
+	float: right; 
+}
+
+#draggable, #draggable2 { 
+	margin-bottom:20px; 
+}
+
+#draggable { 
+	cursor: n-resize; 
+}
+
+#draggable2 { 
+	cursor: e-resize; 
+}
+
+#containment-wrapper { 
+	width: 500px; 
+	height:500px; 
+	border: transparent;
+	float: center; 
+	z-index: 0; 
+	background: transparent; 
+	position: relative; 
+}
+
+#container { 
+	z-index: 0; 
+	position: relative;
+}
+
+#imageTemp { 
+	z-index: 0; 
+	border: 1px solid #000; 
+	position: absolute; 
+	top: 0px; 
+	left: -3px; 
+	background: transparent;
+} 
+
+.draggable { 
+	z-index: 1; 
+	float: left; 
+	background: transparent; 
+	border: none; 
+	position: relative; 
+	cursor: progress; 
+	width: 100%; 
+}
+
+#sideBar { 
+	vertical-align:top;
+}
+
+#contentArea { 
+	vertical-align:top;
+}
+
+#rightSideBar { 
+	vertical-align:top;
+}
+
+b { 
+   position: absolute; 
+   top: 15px; 
+   left: 3px; 
+   width: 100%; 
+}
