@@ -76,7 +76,7 @@ canvas {
 	vertical-align:top;
 }
 
-b { 
+.testbedtext { 
    position: absolute; 
    top: 15px; 
    left: 3px; 

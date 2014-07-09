@@ -3,6 +3,7 @@ window.addEventListener('load', function () {
   var testbed = {};
   resetItAll();
   var canvas, context, canvaso, contexto;
+  var correcaoposicao = getPosition(document.getElementById('containment-wrapper'));
   var nodeurl = "omf.ufg.node";
   function init () {
     canvaso = document.getElementById('imageTemp');
@@ -31,6 +32,7 @@ window.addEventListener('load', function () {
 $(function() {
   var frozen = false;
   var lastclicked = "";
+  var alreadyhasconnection = false;
  $(".arrastavel").draggable({ containment: "#containment-wrapper", scroll: true });
  $(".arrastavel").draggable({
   start: function(){
@@ -40,8 +42,8 @@ $(function() {
   drag: function() {
     var position = getPosition(this);
     testbed[this.id][0] = this.id;
-    testbed[this.id][1] = position.x - 50;
-    testbed[this.id][2] = position.y - 50;
+    testbed[this.id][1] = position.x - (2/3 * correcaoposicao.x);
+    testbed[this.id][2] = position.y - (1/2 * correcaoposicao.y);
     if(testbed[this.id][3] === undefined)
       testbed[this.id][3] = "";
     $("#testbed_pos").html("The image is REALLY located at: " + testbed[this.id][1] + ", " + testbed[this.id][2]);
@@ -55,8 +57,11 @@ $(function() {
     testbed[this.id][3] = "";
   if(frozen){
     if(lastclicked !== "" && !hasConnection(this.id, lastclicked) && lastclicked !== this.id){
-      if(!ifNeighborhoods(this.id, lastclicked)){
-        alert("The nodes need to be neighborhoods for the configuration to work!");
+      if(alreadyhasconnection){
+        alert("Só uma conexão cliente-servidor por script!");
+        lastclicked = "";
+      }else if(!ifNeighborhoods(this.id, lastclicked)){
+        alert("Os nós precisam ser vizinhos para a configuração funcionar!");
         lastclicked = "";
       }else{
         contexto.beginPath();
@@ -68,6 +73,7 @@ $(function() {
         addConnectedNames(this.id, lastclicked);
         addConnectedNames(lastclicked, this.id);
         lastclicked = "";
+        alreadyhasconnection = true;
       }
     }else
       lastclicked = this.id;
@@ -99,6 +105,7 @@ $(function() {
  $("#reset").on("click", function(){
     contexto.clearRect(0, 0, canvaso.width, canvaso.height);
     resetItAll();
+    alreadyhasconnection = false;
   });
  $("#script").on("click", function(){
   for (var x in testbed){
